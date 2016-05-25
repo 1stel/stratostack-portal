@@ -1,0 +1,1 @@
+Welcome to StratoSTACK, {{ $name }}!  We hope you enjoy your stay.

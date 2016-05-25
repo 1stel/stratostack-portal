@@ -1,0 +1,1 @@
+You've received a voucher.  Number {{ $number }}.  Congratulations.
