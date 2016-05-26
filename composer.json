@@ -1,8 +1,6 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
-	"license": "MIT",
+	"name": "1stel/stratostack-portal",
+	"description": "StratoSTACK Cloud Billing Portal.",
 	"type": "project",
 	"require": {
 		"laravel/framework": "5.1.*",
@@ -24,7 +22,6 @@
 		],
 		"psr-4": {
 			"App\\": "app/",
-            "Cloudstack\\": "vendor/nbowyer/cloudstack/src"
 		}
 	},
 	"autoload-dev": {
