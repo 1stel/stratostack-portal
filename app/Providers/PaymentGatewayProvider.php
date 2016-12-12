@@ -23,16 +23,8 @@ class PaymentGatewayProvider extends ServiceProvider
      */
     public function register()
     {
-        $gw = env('PAYMENT_GATEWAY') . 'Repository';
-
-
-
         $this->app->bind('\App\Repositories\Contracts\PaymentRepositoryInterface', function () use ($gw) {
-            $blah = 'AuthorizeNetRepository';
-//            return app($blah);
             return new AuthorizeNetRepository;
         });
-
-//        $this->app->bind('\App\Repositories\Contracts\PaymentRepositoryInterface', $gw . 'Repository');
     }
 }
