@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use Auth;
 use Mail;
 
-class ProfileController extends Controller {
+class ProfileController extends Controller
+{
 
     //
     private $acs;
@@ -41,18 +42,16 @@ class ProfileController extends Controller {
             'new_password' => 'confirmed|min:6'
         ]);
 
-        if ($user->name != $request['name'])
-        {
-            // Change name in DB
+        if ($user->name != $request['name']) {
+        // Change name in DB
             $user->name = $request['name'];
 
             // Set the name for ACS
             list ($userData['firstname'], $userData['lastname']) = explode(' ', $request['name'], 2);
         }
 
-        if ($user->email != $request['email'])
-        {
-            // Copy the email for lookup purposes
+        if ($user->email != $request['email']) {
+        // Copy the email for lookup purposes
             $origEmail = $user->email;
 
             // Update the email data in the DB
@@ -64,8 +63,7 @@ class ProfileController extends Controller {
             $accountData['newname'] = $request['email'];
         }
 
-        if (isset($request['new_password']) && '' != $request['new_password'])
-        {
+        if (isset($request['new_password']) && '' != $request['new_password']) {
             $user->password = bcrypt($request['new_password']);
 
             $userData['password'] = $request['new_password'];
@@ -76,20 +74,17 @@ class ProfileController extends Controller {
             });
         }
 
-        if (!isset($userData) && !isset($accountData))
-        {
-            // May do something here later.
+        if (!isset($userData) && !isset($accountData)) {
+        // May do something here later.
         }
 
         // Check to see if we have changes that need to touch the Cloudstack system.
-        if (isset($userData))
-        {
+        if (isset($userData)) {
             $userData['id'] = $user->acs_id;
             $userRequest = $this->acs->updateUser($userData);
         }
 
-        if (isset($accountData))
-        {
+        if (isset($accountData)) {
             $accountData['account'] = $origEmail;
             $accountData['domainid'] = $domainId->data;
             $accountRequest = $this->acs->updateAccount($accountData);

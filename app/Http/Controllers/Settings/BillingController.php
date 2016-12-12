@@ -8,9 +8,10 @@ use App\Repositories\Contracts\PaymentRepositoryInterface;
 use Auth;
 use Illuminate\Http\Request;
 
-class BillingController extends Controller {
+class BillingController extends Controller
+{
 
-	//
+    //
     public function __construct()
     {
         $this->middleware('auth');

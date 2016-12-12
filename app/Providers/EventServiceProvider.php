@@ -5,7 +5,8 @@ use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Request;
 
-class EventServiceProvider extends ServiceProvider {
+class EventServiceProvider extends ServiceProvider
+{
 
     /**
      * The event handler mappings for the application.
@@ -42,8 +43,7 @@ class EventServiceProvider extends ServiceProvider {
     {
         parent::boot($events);
 
-        $events->listen('auth.login', function ($user, $remember)
-        {
+        $events->listen('auth.login', function ($user, $remember) {
             // Record user login
             Activity::create(['subject_type' => 'User',
                               'subject_id'   => '',
@@ -53,5 +53,4 @@ class EventServiceProvider extends ServiceProvider {
             ]);
         });
     }
-
 }

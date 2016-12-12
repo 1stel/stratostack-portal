@@ -17,7 +17,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreateInstanceRequest;
 use Auth;
 
-class InstanceController extends Controller {
+class InstanceController extends Controller
+{
 
     // Default admin-level ACS connection
     private $acs;
@@ -83,12 +84,9 @@ class InstanceController extends Controller {
      */
     public function store(CreateInstanceRequest $request, InstanceRepo $repo)
     {
-        try
-        {
+        try {
             $response = $repo->create($request);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage())->withInput();
         }
 
@@ -213,44 +211,30 @@ class InstanceController extends Controller {
     {
         $vm = $this->acs->listVirtualMachines(['id' => $id])[0];
 
-        if (strcasecmp($vm->hypervisor, 'KVM') == 0)
-        {
-            if ($vm->state != 'Stopped')
-            {
+        if (strcasecmp($vm->hypervisor, 'KVM') == 0) {
+            if ($vm->state != 'Stopped') {
                 return back()->withErrors('Please power off your instance before attempting to snapshot it.');
-            }
-            else
-            {
+            } else {
                 // Find root volume and snapshot that.
-                try
-                {
+                try {
                     $disk = $this->acs->listVolumes(['virtualmachineid' => $vm->id, 'listall' => 'true', 'type' => 'ROOT'])[0];
                     $resp = $this->acs->createSnapshot(['account'  => Auth::User()->email,
                                                         'domain'   => SiteConfig::whereParameter('domainId')->first()->data,
                                                         'volumeid' => $disk->id]);
-                }
-                catch (\Exception $e)
-                {
+                } catch (\Exception $e) {
                     return back()->withErrors($e->getMessage());
                 }
             }
-        }
-        else
-        {
-            try
-            {
+        } else {
+            try {
                 $resp = $this->acs->createVMSnapshot(['id' => $id]);
-            }
-            catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 return back()->withErrors($e->getMessage());
             }
         }
 
-        if (empty($resp->jobid))
-        {
-            if ($resp->errorcode == 535)
-            {
+        if (empty($resp->jobid)) {
+            if ($resp->errorcode == 535) {
                 return back()->withErrors('Your allotted secondary storage space has been exceeded.');
             }
 
@@ -284,8 +268,7 @@ class InstanceController extends Controller {
                                        'domainid' => SiteConfig::whereParameter('domainId')->first()->data]));
 
         // If null, generate them.
-        if (empty($user->secretkey) || empty($user->apikey))
-        {
+        if (empty($user->secretkey) || empty($user->apikey)) {
             $keys = $this->acs->registerUserKeys(['id' => $user->id]);
         }
 
@@ -304,5 +287,4 @@ class InstanceController extends Controller {
 
         return redirect()->route('progress', [$resp->jobid]);
     }
-
 }

@@ -38,12 +38,10 @@ class SetupSecurityGroups implements ShouldQueue
         $groups = $this->repo->all();
         $domainId = SiteConfig::whereParameter('domainId')->first();
 
-        foreach ($groups as $group)
-        {
-            // Add each group to the user.
-            if (strcasecmp($group->name, 'default') != 0)
-            {
-                // Default group doesn't need creating.
+        foreach ($groups as $group) {
+        // Add each group to the user.
+            if (strcasecmp($group->name, 'default') != 0) {
+            // Default group doesn't need creating.
                 $acs->createSecurityGroup(['name'        => $group->name,
                                                         'description' => $group->description,
                                                         'account'     => $event->user->email,
@@ -52,10 +50,8 @@ class SetupSecurityGroups implements ShouldQueue
                 sleep(5); // Make sure the group gets created.
             }
 
-            foreach ($group->ingressRules as $rule)
-            {
-                if ($rule->protocol == 'ICMP')
-                {
+            foreach ($group->ingressRules as $rule) {
+                if ($rule->protocol == 'ICMP') {
                     $acs->authorizeSecurityGroupIngress(['account'           => $event->user->email,
                                                                       'domainid'          => $domainId->data,
                                                                       'cidrlist'          => $rule->cidr,
@@ -64,16 +60,14 @@ class SetupSecurityGroups implements ShouldQueue
                                                                       'protocol'          => $rule->protocol,
                                                                       'securitygroupname' => $group->name,
                     ]);
-                }
-                else
-                {
+                } else {
                     $acs->authorizeSecurityGroupIngress(['account'           => $event->user->email,
-                                                                      'domainid'          => $domainId->data,
-                                                                      'cidrlist'          => $rule->cidr,
-                                                                      'startport'         => $rule->start_port,
-                                                                      'endport'           => $rule->end_port,
-                                                                      'protocol'          => $rule->protocol,
-                                                                      'securitygroupname' => $group->name,
+                                                                  'domainid'          => $domainId->data,
+                                                                  'cidrlist'          => $rule->cidr,
+                                                                  'startport'         => $rule->start_port,
+                                                                  'endport'           => $rule->end_port,
+                                                                  'protocol'          => $rule->protocol,
+                                                                  'securitygroupname' => $group->name,
                     ]);
                 }
             }

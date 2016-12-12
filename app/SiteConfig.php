@@ -3,7 +3,8 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 
-class SiteConfig extends Model {
+class SiteConfig extends Model
+{
 
     //
     protected $table = 'site_config';
@@ -17,7 +18,8 @@ class SiteConfig extends Model {
     }
 }
 
-class SiteConfigCollection extends Collection {
+class SiteConfigCollection extends Collection
+{
 
     /*
     * Make a key-value pair array from the site config table
@@ -31,8 +33,7 @@ class SiteConfigCollection extends Collection {
     {
         $result = array();
 
-        $this->each(function ($config) use (&$result)
-        {
+        $this->each(function ($config) use (&$result) {
 //            echo "Have $config->parameter and $config->data\n";
             $result[$config->parameter] = $config->data;
         });

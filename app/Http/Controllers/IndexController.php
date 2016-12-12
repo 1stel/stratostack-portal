@@ -6,7 +6,8 @@ use Config;
 
 use Illuminate\Http\Request;
 
-class IndexController extends Controller {
+class IndexController extends Controller
+{
 
     /**
      * Create a new controller instance.
@@ -18,15 +19,14 @@ class IndexController extends Controller {
         $this->middleware('guest');
     }
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		//
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        //
         return view('welcome');
-	}
-
+    }
 }

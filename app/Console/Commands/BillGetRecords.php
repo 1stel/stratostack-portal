@@ -10,7 +10,8 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class BillGetRecords extends Command {
+class BillGetRecords extends Command
+{
 
     /**
      * The console command name.
@@ -60,38 +61,38 @@ class BillGetRecords extends Command {
 
         $records = json_decode($data->getBody());
 
-        foreach ($records->instances as $instanceRecord)
-        {
+        foreach ($records->instances as $instanceRecord) {
             $keys = ['zoneId', 'accountId', 'vm_name', 'usage', 'vmInstanceId', 'serviceOfferingId',
                 'templateId', 'cpuNumber', 'cpuSpeed', 'memory', 'startDate', 'endDate'];
             $data = [];
 
-            foreach ($keys as $key)
+            foreach ($keys as $key) {
                 $data[$key] = $instanceRecord->$key;
+            }
 
             UsageInstance::create($data);
             unset($data);
         }
 
-        foreach ($records->general as $generalRecord)
-        {
+        foreach ($records->general as $generalRecord) {
             $keys = ['zoneId', 'accountId', 'type', 'usage', 'vmInstanceId', 'templateId', 'startDate', 'endDate'];
             $data = [];
 
-            foreach ($keys as $key)
+            foreach ($keys as $key) {
                 $data[$key] = $generalRecord->$key;
+            }
 
             UsageGeneral::create($data);
             unset($data);
         }
 
-        foreach ($records->disk as $diskRecord)
-        {
+        foreach ($records->disk as $diskRecord) {
             $keys = ['zoneId', 'accountId', 'volumeId', 'size', 'type', 'tags', 'usage', 'vmInstanceId', 'startDate', 'endDate'];
             $data = [];
 
-            foreach ($keys as $key)
+            foreach ($keys as $key) {
                 $data[$key] = $diskRecord->$key;
+            }
 
             UsageDisk::create($data);
             unset($data);
@@ -124,5 +125,4 @@ class BillGetRecords extends Command {
 //			['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
         ];
     }
-
 }

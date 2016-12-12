@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
 
     public function __construct()
     {
@@ -105,8 +106,9 @@ class UserController extends Controller {
         $user->name = $request->name;
         $user->email = $request->email;
 
-        if ($request->password != '')
+        if ($request->password != '') {
             $user->password = bcrypt($request->password);
+        }
 
         $user->save();
 
@@ -128,5 +130,4 @@ class UserController extends Controller {
 
         return 1;
     }
-
 }

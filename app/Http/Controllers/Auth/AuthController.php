@@ -7,7 +7,8 @@ use App\User;
 use App\SiteConfig;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
-class AuthController extends Controller {
+class AuthController extends Controller
+{
 
     /*
     |--------------------------------------------------------------------------

@@ -3,25 +3,26 @@
 use App\Repositories\AuthorizeNetRepository;
 use Illuminate\Support\ServiceProvider;
 
-class PaymentGatewayProvider extends ServiceProvider {
+class PaymentGatewayProvider extends ServiceProvider
+{
 
-	/**
-	 * Bootstrap the application services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		//
-	}
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
+    }
 
-	/**
-	 * Register the application services.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
         $gw = env('PAYMENT_GATEWAY') . 'Repository';
 
 
@@ -33,6 +34,5 @@ class PaymentGatewayProvider extends ServiceProvider {
         });
 
 //        $this->app->bind('\App\Repositories\Contracts\PaymentRepositoryInterface', $gw . 'Repository');
-	}
-
+    }
 }

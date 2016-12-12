@@ -9,7 +9,8 @@ use Cloudstack\CloudStackClient;
 use Illuminate\Http\Request;
 use Auth;
 
-class SSHKeyController extends Controller {
+class SSHKeyController extends Controller
+{
 
     private $acs;
     
@@ -56,8 +57,7 @@ class SSHKeyController extends Controller {
                                                          'publickey' => $request['publicKey']
         ]);
 
-        if (!empty($result->errorcode))
-        {
+        if (!empty($result->errorcode)) {
             return back()->withErrors($result->errortext)->withInput();
         }
 
@@ -129,5 +129,4 @@ class SSHKeyController extends Controller {
 
         return 1;
     }
-
 }

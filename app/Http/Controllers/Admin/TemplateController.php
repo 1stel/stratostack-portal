@@ -9,7 +9,8 @@ use Cloudstack\CloudStackClient;
 use Illuminate\Http\Request;
 use App\Http\Requests\TemplateRequest;
 
-class TemplateController extends Controller {
+class TemplateController extends Controller
+{
 
     private $acs;
     
@@ -56,9 +57,8 @@ class TemplateController extends Controller {
     {
         // Do we have an uploaded image?
         // Handle display image
-        if ($request->hasFile('display_img'))
-        {
-            // Save file somewhere useful
+        if ($request->hasFile('display_img')) {
+        // Save file somewhere useful
             $path = public_path() . '/img/';
             $filename = $request->file('display_img')->getFilename() . '.' . $request->file('display_img')->guessExtension();
 
@@ -71,13 +71,10 @@ class TemplateController extends Controller {
                                         'display_img' => (isset($filename)) ? $filename : ''
         ]);
 
-        if ($request['templates'])
-        {
-            // We have some templates selected
-            foreach ($request['templates'] as $id => $val)
-            {
-                if (0 == $val)
-                {
+        if ($request['templates']) {
+        // We have some templates selected
+            foreach ($request['templates'] as $id => $val) {
+                if (0 == $val) {
                     // Template wasn't selected for inclusion
                     continue;
                 }
@@ -90,7 +87,6 @@ class TemplateController extends Controller {
 
                 unset($template, $id, $val);
             }
-
         }
         return redirect()->route('admin.template.index');
     }
@@ -123,8 +119,7 @@ class TemplateController extends Controller {
         $group = TemplateGroup::findOrFail($id);
         $templates = $this->acs->listTemplates(['templatefilter' => 'executable']);
         $checkedIDs = [];
-        foreach ($group->templates as $template)
-        {
+        foreach ($group->templates as $template) {
             $checkedIDs[] = $template->template_id;
         }
 
@@ -147,8 +142,7 @@ class TemplateController extends Controller {
         // Make an array of template IDs: existing templates and request templates.
         $currentTemplates = [];
 
-        foreach ($templates as $template)
-        {
+        foreach ($templates as $template) {
             $currentTemplates[] = $template->template_id;
         }
 
@@ -157,14 +151,12 @@ class TemplateController extends Controller {
         $templatesDelete = array_diff($currentTemplates, $newTemplates);
         $templatesAdd = array_diff($newTemplates, $currentTemplates);
 
-        foreach ($templatesDelete as $td)
-        {
+        foreach ($templatesDelete as $td) {
             $tpl = Template::where('template_id', '=', $td)->where('template_group_id', '=', $tg->id)->first();
             $tpl->delete();
         }
 
-        foreach ($templatesAdd as $ta)
-        {
+        foreach ($templatesAdd as $ta) {
             $newTemplate = new Template(['template_id' => $ta,
                                       'size'        => ('SaaS' == $request->type) ? '0' : $request['templateSize'][$ta],
                                       'price'       => '0']);
@@ -179,9 +171,8 @@ class TemplateController extends Controller {
         $tg->type = $request->type;
 
         // Check to see if we have a new image to work with
-        if ($request->hasFile('display_img'))
-        {
-            // Save file somewhere useful
+        if ($request->hasFile('display_img')) {
+        // Save file somewhere useful
             $path = public_path() . '/img/';
             $filename = $request->file('display_img')->getFilename() . '.' . $request->file('display_img')->guessExtension();
 
@@ -207,5 +198,4 @@ class TemplateController extends Controller {
 
         return 1;
     }
-
 }

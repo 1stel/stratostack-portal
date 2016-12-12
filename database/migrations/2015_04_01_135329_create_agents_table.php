@@ -3,18 +3,18 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAgentsTable extends Migration {
+class CreateAgentsTable extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('agents', function(Blueprint $table)
-		{
-			$table->increments('id');
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('agents', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('name');
             $table->string('address');
             $table->string('address2');
@@ -25,19 +25,18 @@ class CreateAgentsTable extends Migration {
             $table->string('email', '60');
             $table->string('logo')->nullable();
             $table->decimal('commission', 4, 4);
-			$table->timestamps();
+            $table->timestamps();
             $table->softDeletes();
-		});
-	}
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('agents');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('agents');
+    }
 }

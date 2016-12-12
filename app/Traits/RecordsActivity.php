@@ -6,7 +6,8 @@ use ReflectionClass;
 use App\Activity;
 use Request;
 
-trait RecordsActivity {
+trait RecordsActivity
+{
 
     protected static function bootRecordsActivity()
     {
@@ -19,16 +20,11 @@ trait RecordsActivity {
 
     public function recordActivity($event)
     {
-        if (!empty($this->name))
-        {
+        if (!empty($this->name)) {
             $eventText = "$event: $this->name";
-        }
-        else if (!empty($this->number))
-        {
+        } else if (!empty($this->number)) {
             $eventText = "$event: $this->number";
-        }
-        else
-        {
+        } else {
             $eventText = $event;
         }
 
@@ -50,5 +46,4 @@ trait RecordsActivity {
 
         return (new ReflectionClass($this))->getShortName();
     }
-
 }

@@ -8,7 +8,8 @@ use App\SiteConfig;
 use Illuminate\Http\Request;
 use Cloudstack\CloudStackClient;
 
-class SetupController extends Controller {
+class SetupController extends Controller
+{
 
     public function __construct()
     {
@@ -28,46 +29,39 @@ class SetupController extends Controller {
         $acsCfg = Config::get('cloud.mgmtServer');
         $acs = new CloudStackClient($acsCfg['url'], $acsCfg['apiKey'], $acsCfg['secretKey']);
 
-        if (is_array($acs))
-        {
+        if (is_array($acs)) {
             return back()->withErrors(['message' => $acs['error']]);
         }
 
         $zones = $acs->listZones();
 
-        if (isset($zones->errorcode))
+        if (isset($zones->errorcode)) {
             return back()->withErrors(['message' => 'Unable to verify user credentials.']);
+        }
 
         // We've received some data back now, so its ok to save the credentials.
 
 
         $hypervisors = [];
-        try
-        {
+        try {
             $zones = $acs->listZones();
 
-            foreach ($zones as $zone)
-            {
+            foreach ($zones as $zone) {
                 $hyperQuery = $acs->listHypervisors(['zoneid' => $zone->id]);
 
-                foreach ($hyperQuery as $hypervisor)
-                {
-                    if (!in_array($hypervisor->name, $hypervisors))
+                foreach ($hyperQuery as $hypervisor) {
+                    if (!in_array($hypervisor->name, $hypervisors)) {
                         $hypervisors[] = $hypervisor->name;
+                    }
                 }
             }
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return back()->withErrors(['message' => $e->getMessage()]);
         }
 
-        if (count($hypervisors) > 1)
-        {
+        if (count($hypervisors) > 1) {
             return back()->withErrors(['message' => 'More than one hypervisor type detected.  Multiple hypervisor types not supported.']);
-        }
-        else
-        {
+        } else {
             $hypervisor = $hypervisors[0];
         }
 
@@ -89,5 +83,4 @@ class SetupController extends Controller {
 
         return redirect('/admin/');
     }
-
 }

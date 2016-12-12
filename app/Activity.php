@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Activity extends Model {
+class Activity extends Model
+{
 
     protected $fillable = ['subject_type', 'subject_id', 'event', 'user_id', 'ip'];
 

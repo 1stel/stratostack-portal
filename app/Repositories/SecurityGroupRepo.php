@@ -5,7 +5,8 @@ namespace App\Repositories;
 use App\Repositories\Eloquent\IngressRule;
 use App\Repositories\Eloquent\SecurityGroup;
 
-class SecurityGroupRepo {
+class SecurityGroupRepo
+{
 
     protected $client;
 

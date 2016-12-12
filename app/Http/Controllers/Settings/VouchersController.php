@@ -9,7 +9,8 @@ use App\Voucher;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class VouchersController extends Controller {
+class VouchersController extends Controller
+{
 
     public function __construct()
     {
@@ -82,8 +83,7 @@ class VouchersController extends Controller {
 
         $this->validate($request, ['email' => 'required|email']);
 
-        Mail::send('emails.voucher', ['number' => $id], function ($mail) use ($request)
-        {
+        Mail::send('emails.voucher', ['number' => $id], function ($mail) use ($request) {
             $mail->from('support@stratostack.com', 'StratoSTACK');
             $mail->to($request->email)->subject('Voucher');
         });
@@ -119,8 +119,7 @@ class VouchersController extends Controller {
         $user = Auth::User();
 
         // Check to verify that this isn't a user redeeming their own vouchers.
-        if ($voucher->user_id == $user->id)
-        {
+        if ($voucher->user_id == $user->id) {
             flash()->error('Unable to redeem voucher issued to yourself.');
             return redirect()->route('settings.billing');
         }

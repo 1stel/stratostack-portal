@@ -4,7 +4,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\SiteConfig;
 
-class SiteConfigSeeder extends Seeder {
+class SiteConfigSeeder extends Seeder
+{
 
     public function run()
     {
@@ -26,7 +27,5 @@ class SiteConfigSeeder extends Seeder {
         SiteConfig::create(['parameter' => 'grandfatherPricing', 'data' => 'NO']);
 
 //        SiteConfig::create(['parameter' => '', 'data' => '']);
-
     }
-
 }

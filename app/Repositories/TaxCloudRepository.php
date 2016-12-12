@@ -7,7 +7,8 @@ use TaxCloud\Request\VerifyAddress;
 use TaxCloud\Request\Lookup;
 use TaxCloud\CartItem;
 
-class TaxCloudRepository {
+class TaxCloudRepository
+{
 
     protected $client;
     protected $uspsUserId;
@@ -41,9 +42,7 @@ class TaxCloudRepository {
         try {
             $response = $this->client->VerifyAddress($verifyAddress);
             return $response;
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             return null;
         }
     }
@@ -58,10 +57,8 @@ class TaxCloudRepository {
         $taxIdCounter = 0;
         $taxItems = [];
 
-        foreach ($usage['instance'] as $instance)
-        {
-            foreach ($instance as $so_instance)
-            {
+        foreach ($usage['instance'] as $instance) {
+            foreach ($instance as $so_instance) {
                 $taxItemName = "{$so_instance['resources']['cpunumber']}-{$so_instance['resources']['memory']}-{$so_instance['resources']['disk_size']}";
                 $taxItems[] = new CartItem($taxIdCounter, $taxItemName, $so_instance['tic'], $so_instance['price'], 1);
                 $taxIdCounter++;
@@ -72,8 +69,7 @@ class TaxCloudRepository {
 
         $salesTax = 0;
 
-        foreach (array_pop($taxInfo) as $taxItem)
-        {
+        foreach (array_pop($taxInfo) as $taxItem) {
             $salesTax += $taxItem;
         }
         return $salesTax;
@@ -81,13 +77,15 @@ class TaxCloudRepository {
 
     public function rateLookup($custId, $cartId, $taxItems)
     {
-        $lookup = new Lookup(Config::get('taxcloud.apiLoginID'),
+        $lookup = new Lookup(
+            Config::get('taxcloud.apiLoginID'),
             Config::get('taxcloud.apiKey'),
             $custId,
             $cartId,
             $taxItems,
             $this->originAddress,
-            $this->destAddress);
+            $this->destAddress
+        );
 
         return $this->client->Lookup($lookup);
     }

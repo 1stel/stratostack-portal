@@ -1,7 +1,7 @@
 <?php namespace App\Repositories\Contracts;
 
-
-interface DNSInterface {
+interface DNSInterface
+{
 
     public function createDomain($domain);
 
@@ -12,5 +12,4 @@ interface DNSInterface {
     public function editRecord($oldhost, $oldtype, $host, $type, $target = null, $priority = null, $port = null, $weight = null);
 
     public function deleteRecord($host, $type);
-
 }

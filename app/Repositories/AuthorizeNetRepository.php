@@ -7,7 +7,8 @@ use AuthorizeNet\Common\Type\PaymentProfile;
 use AuthorizeNet\Common\Type\Transaction;
 use App\User;
 
-class AuthorizeNetRepository implements PaymentRepositoryInterface {
+class AuthorizeNetRepository implements PaymentRepositoryInterface
+{
 
     // !!REVISE!! This class needs input checking and Exception handling.
     // We also lack validation of credit cards at the moment.  Not sure how that is supposed to be handled.
@@ -25,9 +26,8 @@ class AuthorizeNetRepository implements PaymentRepositoryInterface {
 
         $user = User::find($userId);
 
-        if (!$user->authnet_cid)
-        {
-            // We don't have a customer profile created.
+        if (!$user->authnet_cid) {
+        // We don't have a customer profile created.
 
             $customer = new Customer;
             $customer->description = $user->name;
@@ -62,8 +62,7 @@ class AuthorizeNetRepository implements PaymentRepositoryInterface {
         $response = $this->request->createCustomerPaymentProfile($user->authnet_cid, $paymentProfile);
         $paymentProfileId = $response->xml->customerPaymentProfileId->__toString();
 
-        switch (substr($cardInfo['cardNumber'], 0, 1))
-        {
+        switch (substr($cardInfo['cardNumber'], 0, 1)) {
             case 3:
                 $cardType = 'American Express';
                 break;
@@ -92,7 +91,6 @@ class AuthorizeNetRepository implements PaymentRepositoryInterface {
 
     public function updateCard($id, array $cardInfo)
     {
-
     }
 
     public function deleteCard($id, $userId)
@@ -159,6 +157,5 @@ class AuthorizeNetRepository implements PaymentRepositoryInterface {
 
     public function refund()
     {
-
     }
 }

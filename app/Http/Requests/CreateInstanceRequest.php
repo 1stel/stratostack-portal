@@ -2,7 +2,8 @@
 
 use App\Http\Requests\Request;
 
-class CreateInstanceRequest extends Request {
+class CreateInstanceRequest extends Request
+{
 
     /**
      * Determine if the user is authorized to make this request.
@@ -41,5 +42,4 @@ class CreateInstanceRequest extends Request {
             'secGroup.required' => 'Please select a security group.',
         ];
     }
-
 }

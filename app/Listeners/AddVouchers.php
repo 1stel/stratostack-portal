@@ -33,19 +33,16 @@ class AddVouchers
 
         $numVouchers = SiteConfig::whereParameter('vouchers')->first();
 
-        if ($numVouchers->data > 1)
-        {
+        if ($numVouchers->data > 1) {
             $voucherAmount = SiteConfig::whereParameter('voucherAmount')->first();
 
             static $randList = 'ABCDEF123456789';
             $randLen = strlen($randList) - 1;
 
-            for ($i = 0; $i < $numVouchers->data; $i++)
-            {
+            for ($i = 0; $i < $numVouchers->data; $i++) {
                 $voucherNum = '';
 
-                for ($j = 0; $j < 10; $j++)
-                {
+                for ($j = 0; $j < 10; $j++) {
                     $num = rand(0, $randLen);
                     $voucherNum .= $randList[$num];
                 }

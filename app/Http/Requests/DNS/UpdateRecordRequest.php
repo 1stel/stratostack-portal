@@ -4,7 +4,8 @@ namespace App\Http\Requests\DNS;
 
 use App\Http\Requests\Request;
 
-class UpdateRecordRequest extends Request {
+class UpdateRecordRequest extends Request
+{
 
     /**
      * Determine if the user is authorized to make this request.

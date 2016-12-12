@@ -18,8 +18,7 @@ Route::get('home', 'InstanceController@index');
 Route::get('/emailVerification/{token}', function ($token) {
     $user = \App\User::where('email_token', $token)->first();
 
-    if ($user instanceof \App\User)
-    {
+    if ($user instanceof \App\User) {
         $user->email_token = null;
         $user->verified = 1;
         $user->bill_date = date('Y-m-d', strtotime("+1 month"));
@@ -44,8 +43,8 @@ Route::get('/progress/{jobId}', ['as' => 'progress', 'middleware' => 'auth', fun
 }]);
 
 Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
     'api' => 'APIController',
 ]);
 

@@ -21,17 +21,15 @@ class VerifyUserStatus
      */
     public function handle($request, Closure $next)
     {
-        if (null !== $this->auth->user() && !$this->auth->guest())
-        {
-            // Check to see if user is active
-            if ($this->auth->user()->verified == 1 || $request->is('emailVerification/*'))
+        if (null !== $this->auth->user() && !$this->auth->guest()) {
+        // Check to see if user is active
+            if ($this->auth->user()->verified == 1 || $request->is('emailVerification/*')) {
                 return $next($request);
-            else
-            {
-                if (!$request->is('auth/validation-needed'))
+            } else {
+                if (!$request->is('auth/validation-needed')) {
                     return redirect('/auth/validation-needed');
+                }
             }
-
         }
 
         return $next($request);

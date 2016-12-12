@@ -3,17 +3,17 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsageDisksTable extends Migration {
+class CreateUsageDisksTable extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('usage_disks', function(Blueprint $table)
-		{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('usage_disks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('zoneId', 40);
             $table->string('accountId', 40);
@@ -25,17 +25,16 @@ class CreateUsageDisksTable extends Migration {
             $table->string('vmInstanceId', 40)->nullable();
             $table->dateTime('startDate');
             $table->dateTime('endDate');
-		});
-	}
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('usage_disks');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('usage_disks');
+    }
 }

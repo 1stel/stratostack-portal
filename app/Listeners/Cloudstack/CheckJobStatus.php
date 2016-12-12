@@ -34,21 +34,19 @@ class CheckJobStatus implements ShouldQueue
         //
         $loopComplete = 0;
 
-        while ($loopComplete == 0)
-        {
+        while ($loopComplete == 0) {
             $result = $acs->queryAsyncJobResult(['jobid' => $event->jobId]);
 
-            if ($result->jobstatus == 1)
-            {
+            if ($result->jobstatus == 1) {
                 Log::debug('Job finished! We are inside CheckJobStatus.');
                 $loopComplete = 1;
                 event(new JobFinished($result, $event->userId, $event->userIpAddress));
 
-                switch ($result->jobinstancetype)
-                {
+                switch ($result->jobinstancetype) {
                     case 'VirtualMachine':
-                        if ($result->cmd == 'org.apache.cloudstack.api.command.user.vm.DeployVMCmd')
+                        if ($result->cmd == 'org.apache.cloudstack.api.command.user.vm.DeployVMCmd') {
                             event(new InstanceWasCreated($result->jobresult->virtualmachine));
+                        }
                         break;
                 }
             }

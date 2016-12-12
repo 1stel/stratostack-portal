@@ -4,7 +4,8 @@ namespace App\Http\Requests\DNS;
 
 use App\Http\Requests\Request;
 
-class StoreRecordRequest extends Request {
+class StoreRecordRequest extends Request
+{
 
     /**
      * Determine if the user is authorized to make this request.
