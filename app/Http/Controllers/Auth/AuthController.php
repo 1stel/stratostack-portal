@@ -56,7 +56,6 @@ class AuthController extends Controller
     public function create(array $data)
     {
         $paymentType = SiteConfig::whereParameter('defaultPaymentType')->first();
-//        system("curl --data \"[StratoSTACK] {$data['email']} registered as a new user.\" -s 'https://1stel.slack.com/services/hooks/slackbot?token=oxHCUBstAR4y9p9dvj8FE5Jr&channel=%23devops'");
 
         $user = User::create([
             'name'                => $data['name'],
