@@ -31,7 +31,7 @@ class SiteConfigCollection extends Collection
     */
     public function makeKVArray()
     {
-        $result = array();
+        $result = [];
 
         $this->each(function ($config) use (&$result) {
 //            echo "Have $config->parameter and $config->data\n";

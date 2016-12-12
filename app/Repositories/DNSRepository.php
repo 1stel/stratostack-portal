@@ -86,7 +86,7 @@ class DNSRepository
         return true;
     }
 
-    public function createRecord($data = array())
+    public function createRecord($data = [])
     {
         // data will contain:
         // Required: domainId, hostname, type
@@ -157,7 +157,7 @@ class DNSRepository
         return true;
     }
 
-    public function editRecord($recordId, $data = array())
+    public function editRecord($recordId, $data = [])
     {
         $record = DomainRecord::find($recordId);
 
