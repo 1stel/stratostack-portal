@@ -26,7 +26,6 @@ class CloudstackServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
         $this->app->bind('Cloudstack\CloudStackClient', function () {
             $cfg = Config::get('cloud.mgmtServer');
 

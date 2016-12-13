@@ -3,7 +3,7 @@
 use App\Traits\RecordsActivity;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model implements Authenticatable
+class User extends Authenticatable
 {
 
     use RecordsActivity;
