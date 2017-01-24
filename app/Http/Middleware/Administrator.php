@@ -2,30 +2,26 @@
 
 use Closure;
 
-class Administrator {
+class Administrator
+{
 
-	/**
-	 * Handle an incoming request.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Closure  $next
-	 * @return mixed
-	 */
-	public function handle($request, Closure $next)
-	{
-        if ($request->user())
-        {
-            if ('Admin' != $request->user()->access)
-            {
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        if ($request->user()) {
+            if ('Admin' != $request->user()->access) {
                 return redirect('/');
             }
-        }
-        else
-        {
+        } else {
             return redirect('/');
         }
 
-		return $next($request);
-	}
-
+        return $next($request);
+    }
 }

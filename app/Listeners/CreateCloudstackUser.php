@@ -29,10 +29,9 @@ class CreateCloudstackUser
     {
         // $event has user at $user.
         // Extract first and last name.  ACS wants them separate.
-        if (str_word_count($event->user->name) > 1)
+        if (str_word_count($event->user->name) > 1) {
             list ($fname, $lname) = explode(' ', $event->user->name, 2);
-        else
-        {
+        } else {
             $fname = $event->user->name;
             $lname = ' ';
         }

@@ -7,7 +7,8 @@ use App\SiteConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class SecurityController extends Controller {
+class SecurityController extends Controller
+{
 
     //
     public function __construct()

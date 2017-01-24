@@ -6,7 +6,8 @@ use App\Repositories\Eloquent\Domain;
 use App\Repositories\Eloquent\DomainRecord;
 use GuzzleHttp\Client;
 
-class PowerDNSAPI implements DNSInterface {
+class PowerDNSAPI implements DNSInterface
+{
 
     protected $client;
 
@@ -24,12 +25,9 @@ class PowerDNSAPI implements DNSInterface {
                  'nameservers' => [Config::get('powerdns.ns1'), Config::get('powerdns.ns2')]
         ];
 
-        try
-        {
+        try {
             $this->client->post('servers/localhost/zones', ['json' => $data]);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
 
@@ -38,12 +36,9 @@ class PowerDNSAPI implements DNSInterface {
 
     public function deleteDomain($domain)
     {
-        try
-        {
+        try {
             $this->client->delete('servers/localhost/zones/' . $domain);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
 
@@ -70,24 +65,25 @@ class PowerDNSAPI implements DNSInterface {
         // Do we need to add any additional records into this call?
         $existingRecordsQuery = DomainRecord::where('type', '=', $type)->where('target', '!=', $target)->where('domain_id', '=', $domainId);
 
-        if (in_array($type, ['MX', 'NS']))
+        if (in_array($type, ['MX', 'NS'])) {
             $existingRecordsQuery = $existingRecordsQuery->whereNull('name');
-        else if ($type == 'SRV')
-            $existingRecordsQuery = $existingRecordsQuery->where('name', '=', substr($host, 0, strpos($host, '.', strpos($host, '.') + 1)) );
-        else
-            $existingRecordsQuery = $existingRecordsQuery->where('name', '=', current(explode('.', $host)) );
+        } else if ($type == 'SRV') {
+            $existingRecordsQuery = $existingRecordsQuery->where('name', '=', substr($host, 0, strpos($host, '.', strpos($host, '.') + 1)));
+        } else {
+            $existingRecordsQuery = $existingRecordsQuery->where('name', '=', current(explode('.', $host)));
+        }
 
         $existingRecords = $existingRecordsQuery->get();
 
-        if (count($existingRecords) > 0)
-        {
-            foreach ($existingRecords as $existingRecord)
-            {
-                $records[] = ['content'  => $this->makeContent($existingRecord->type,
-                                                $existingRecord->target,
-                                                $existingRecord->priority,
-                                                $existingRecord->port,
-                                                $existingRecord->weight),
+        if (count($existingRecords) > 0) {
+            foreach ($existingRecords as $existingRecord) {
+                $records[] = ['content'  => $this->makeContent(
+                    $existingRecord->type,
+                    $existingRecord->target,
+                    $existingRecord->priority,
+                    $existingRecord->port,
+                    $existingRecord->weight
+                ),
                               'disabled' => false,
                               'name'     => $host,
                               'ttl'      => 86400,
@@ -102,12 +98,9 @@ class PowerDNSAPI implements DNSInterface {
                                'records'    => $records
         ]]];
 
-        try
-        {
+        try {
             $response = $this->client->patch('servers/localhost/zones/' . $domain, ['json' => $data]);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
 
@@ -117,8 +110,9 @@ class PowerDNSAPI implements DNSInterface {
     public function editRecord($oldhost, $oldtype, $host, $type, $target = null, $priority = null, $port = null, $weight = null)
     {
         // The syntax to update is the same as to add, but if the record name changed we must delete the old record.
-        if ($oldhost != $host || $oldtype != $type)
+        if ($oldhost != $host || $oldtype != $type) {
             $this->deleteRecord($oldhost, $oldtype);
+        }
 
         // Create does a replace, so it'll overwrite the IP entry on the existing record.
         $this->createRecord($host, $type, $target, $priority, $port, $weight);
@@ -134,12 +128,9 @@ class PowerDNSAPI implements DNSInterface {
                                'changetype' => 'DELETE'
         ]]];
 
-        try
-        {
+        try {
             $response = $this->client->patch('servers/localhost/zones/' . $domain, ['json' => $data]);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
 
@@ -150,16 +141,16 @@ class PowerDNSAPI implements DNSInterface {
     {
         $hostParts = explode('.', $host);
         $hostCount = count($hostParts);
-        if ($hostCount > 2)
+        if ($hostCount > 2) {
             return $hostParts[$hostCount - 2] . '.' . $hostParts[$hostCount - 1];
-        else
+        } else {
             return $host;
+        }
     }
 
     private function makeContent($type, $target, $priority = null, $port = null, $weight = null)
     {
-        switch ($type)
-        {
+        switch ($type) {
             case 'A':
             case 'AAAA':
             case 'CNAME':

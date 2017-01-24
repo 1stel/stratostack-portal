@@ -3,25 +3,24 @@
 use App\SiteConfig;
 use Closure;
 
-class SetupComplete {
+class SetupComplete
+{
 
-	/**
-	 * Handle an incoming request.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Closure  $next
-	 * @return mixed
-	 */
-	public function handle($request, Closure $next)
-	{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
         $setupComplete = SiteConfig::whereParameter('setupComplete')->first();
 
-        if ($setupComplete->data == 'false')
-        {
+        if ($setupComplete->data == 'false') {
             return redirect('/admin/setup');
         }
 
-		return $next($request);
-	}
-
+        return $next($request);
+    }
 }

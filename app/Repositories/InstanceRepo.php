@@ -6,7 +6,8 @@ use App\TemplateGroup;
 use Auth;
 use App\Package;
 
-class InstanceRepo {
+class InstanceRepo
+{
 
     private $acs;
     private $serviceOfferings;
@@ -23,20 +24,15 @@ class InstanceRepo {
 
         $offering_id = array_search($resources, $searchableOfferings);
 
-        if ($offering_id == false)
-        {
-            // No offering found.  Look for a customized offering with our disk requirements.
-            foreach ($this->serviceOfferings as $offering => $key)
-            {
-                if (true === $key->iscustomized && false !== strpos($key->tags, $resources['diskType']))
-                {
+        if ($offering_id == false) {
+        // No offering found.  Look for a customized offering with our disk requirements.
+            foreach ($this->serviceOfferings as $offering => $key) {
+                if (true === $key->iscustomized && false !== strpos($key->tags, $resources['diskType'])) {
                     // Found our offering
                     return $offering->id;
                 }
             }
-        }
-        else
-        {
+        } else {
             return $offering_id;
         }
         return false;
@@ -44,16 +40,15 @@ class InstanceRepo {
 
     private function searchableServiceOfferings()
     {
-        if (!isset($this->serviceOfferings))
+        if (!isset($this->serviceOfferings)) {
             $this->getServiceOfferings();
+        }
 
         // Create an array we can array_search on.
         $serviceOfferings = [];
 
-        foreach ($this->serviceOfferings as $offering)
-        {
-            if (false == $offering->iscustomized)
-            {
+        foreach ($this->serviceOfferings as $offering) {
+            if (false == $offering->iscustomized) {
                 $serviceOfferings[$offering->id] = ['cpu'      => $offering->cpunumber,
                                                     'memory'   => $offering->memory,
                                                     'diskType' => $offering->tags];
@@ -88,51 +83,41 @@ class InstanceRepo {
         $cfg = SiteConfig::all()->makeKVArray();
 
         // Did we receive a package or a custom configuration?
-        if (isset($request['package']))
-        {
+        if (isset($request['package'])) {
             $pkg = Package::find($request['package']);
             $instanceData['serviceofferingid'] = $this->findServiceOffering(['cpu'      => $pkg->cpu_number,
                                                                              'memory'   => $pkg->ram,
                                                                              'diskType' => $pkg->diskType->tags]);
-        }
-        else
-        {
+        } else {
             $instanceData['serviceofferingid'] = $this->findServiceOffering(['cpu'      => $request->coreSlider,
                                                                              'memory'   => ($request->ramSlider * 1024),
                                                                              'diskType' => $request->diskType]);
         }
 
         // If we can't find a service offering, error out.
-        if (empty($instanceData['serviceofferingid']))
+        if (empty($instanceData['serviceofferingid'])) {
             abort(500);
-
-        if (isset($request->myTemplate))
-        {
-            // Template is one created by the user.
-            $instanceData['templateid'] = $request->myTemplate;
         }
-        else
-        {
+
+        if (isset($request->myTemplate)) {
+        // Template is one created by the user.
+            $instanceData['templateid'] = $request->myTemplate;
+        } else {
             // Find the template we need.
             $templateGroup = TemplateGroup::find($request['template']);
 
-            if ('FALSE' == $cfg['rootdiskresize'])
-            {
-                // Size can come from a package or a custom size slider.
+            if ('FALSE' == $cfg['rootdiskresize']) {
+            // Size can come from a package or a custom size slider.
                 $disk_size = (isset($request['package'])) ? $pkg->disk_size : stristr($request['hdSlider'], ' ', true);
 
                 // Find the specific size of template
-                $templateGroup->templates->each(function ($tpl) use ($disk_size, &$instanceData)
-                {
-                    if ($tpl->size == $disk_size)
-                    {
+                $templateGroup->templates->each(function ($tpl) use ($disk_size, &$instanceData) {
+                    if ($tpl->size == $disk_size) {
                         $instanceData['templateid'] = $tpl->template_id;
                     }
                 });
-            }
-            else if ('TRUE' == $cfg['rootdiskresize'])
-            {
-                // We don't care about template size.  We resize whatever we need.
+            } else if ('TRUE' == $cfg['rootdiskresize']) {
+            // We don't care about template size.  We resize whatever we need.
                 // Grab the template ID of the first (only) template in the group.
                 $instanceData['templateid'] = $templateGroup->templates->first()->template_id;
 
@@ -145,8 +130,9 @@ class InstanceRepo {
         }
 
         // Error out if we don't find a template
-        if (empty($instanceData['templateid']))
+        if (empty($instanceData['templateid'])) {
             abort(500);
+        }
 
         // Get the user object
         $user = Auth::User();
@@ -171,14 +157,14 @@ class InstanceRepo {
         $instanceData['zoneid'] = $request['zone'];
 
         // Do we need to add a keypair to the system?
-        if (isset($request['keypair']))
+        if (isset($request['keypair'])) {
             $instanceData['keypair'] = $request['keypair'];
+        }
 
         return $this->acs->deployVirtualMachine($instanceData);
     }
 
     public function delete()
     {
-
     }
 }

@@ -1,6 +1,7 @@
 <?php namespace App\Repositories\Contracts;
 
-interface PaymentRepositoryInterface {
+interface PaymentRepositoryInterface
+{
 
     public function newCard(array $cardInfo, $userId);
 
@@ -17,5 +18,4 @@ interface PaymentRepositoryInterface {
     public function voidTransaction($id);
 
     public function refund(); // !!REVISE!!
-
 }

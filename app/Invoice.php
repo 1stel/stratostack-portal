@@ -2,9 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model {
+class Invoice extends Model
+{
 
-	//
+    //
     protected $fillable = ['invoice_data'];
 
     public function user()

@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use TaxCloud\Exceptions\VerifyAddressException;
 use Auth;
 
-class CreditCardController extends Controller {
+class CreditCardController extends Controller
+{
 
     public function __construct()
     {
@@ -54,22 +55,17 @@ class CreditCardController extends Controller {
 
         try {
             $verifiedAddress = $taxCloud->verifyAddress($address);
-        }
-        catch (VerifyAddressException $e)
-        {
+        } catch (VerifyAddressException $e) {
             return back()->withErrors('Unable to verify address.')->withInput();
         }
 
-        if ($verifiedAddress != null)
-        {
-            // We have a USPS verified address
+        if ($verifiedAddress != null) {
+        // We have a USPS verified address
             $billAddress = $verifiedAddress->getAddress1();
             $billCity = $verifiedAddress->getCity();
             $billState = $verifiedAddress->getState();
             $billZip = $verifiedAddress->getZip5() . '-' . $verifiedAddress->getZip4();
-        }
-        else
-        {
+        } else {
             $billAddress = $request->address;
             $billCity = $request->city;
             $billState = $request->state;
@@ -142,5 +138,4 @@ class CreditCardController extends Controller {
 
         return 1;
     }
-
 }

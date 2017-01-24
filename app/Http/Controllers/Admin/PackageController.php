@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PackageRequest;
 use App\Package;
 
-class PackageController extends Controller {
+class PackageController extends Controller
+{
 
     public function __construct()
     {
@@ -46,11 +47,11 @@ class PackageController extends Controller {
         $ramLimit = [];
         $disks = [];
 
-        for ($i = 1; $i <= $ramData->data; $i++)
+        for ($i = 1; $i <= $ramData->data; $i++) {
             $ramLimit[$i * 1024] = $i;
+        }
 
-        foreach ($diskData as $disk)
-        {
+        foreach ($diskData as $disk) {
             $disks[$disk->id] = $disk->display_text;
         }
 
@@ -124,5 +125,4 @@ class PackageController extends Controller {
 
         return 1;
     }
-
 }

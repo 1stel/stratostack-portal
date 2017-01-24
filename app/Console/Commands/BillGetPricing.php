@@ -8,7 +8,8 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class BillGetPricing extends Command {
+class BillGetPricing extends Command
+{
 
     /**
      * The console command name.
@@ -54,20 +55,16 @@ class BillGetPricing extends Command {
 
         DB::statement('TRUNCATE element_costs');
 
-        foreach ($priceData->prices as $price)
-        {
-            if ($priceData->priceMethod == 'fixedRatio')
-            {
+        foreach ($priceData->prices as $price) {
+            if ($priceData->priceMethod == 'fixedRatio') {
                 $frPrice = SiteConfig::firstOrCreate(['parameter' => $price->parameter]);
                 $frPrice->data = $price->data;
                 $frPrice->save();
-            }
-            else if ($priceData->priceMethod == 'elementPrice')
-            {
+            } else if ($priceData->priceMethod == 'elementPrice') {
                 ElementCost::create(['element'       => $price->element,
-                                     'quantity'      => $price->quantity,
-                                     'quantity_type' => $price->quantity_type,
-                                     'price'         => $price->price]);
+                                 'quantity'      => $price->quantity,
+                                 'quantity_type' => $price->quantity_type,
+                                 'price'         => $price->price]);
             }
         }
     }
@@ -95,5 +92,4 @@ class BillGetPricing extends Command {
 //			['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
         ];
     }
-
 }

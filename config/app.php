@@ -2,6 +2,9 @@
 
 return [
 
+    'env' => env('APP_ENV', 'production'),
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -113,12 +116,10 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        'Illuminate\Foundation\Providers\ArtisanServiceProvider',
         'Illuminate\Auth\AuthServiceProvider',
         'Illuminate\Bus\BusServiceProvider',
         'Illuminate\Cache\CacheServiceProvider',
         'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
-        'Illuminate\Routing\ControllerServiceProvider',
         'Illuminate\Cookie\CookieServiceProvider',
         'Illuminate\Database\DatabaseServiceProvider',
         'Illuminate\Encryption\EncryptionServiceProvider',
@@ -135,15 +136,13 @@ return [
         'Illuminate\Translation\TranslationServiceProvider',
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
-        'Illuminate\Html\HtmlServiceProvider',
         'Illuminate\Broadcasting\BroadcastServiceProvider',
 
         /*
          * Application Service Providers...
          */
+        Collective\Html\HtmlServiceProvider::class,
         'App\Providers\AppServiceProvider',
-        'App\Providers\BusServiceProvider',
-        'App\Providers\ConfigServiceProvider',
         'App\Providers\EventServiceProvider',
         'App\Providers\RouteServiceProvider',
         'App\Providers\CloudstackServiceProvider',
@@ -176,7 +175,6 @@ return [
         'Artisan'   => 'Illuminate\Support\Facades\Artisan',
         'Auth'      => 'Illuminate\Support\Facades\Auth',
         'Blade'     => 'Illuminate\Support\Facades\Blade',
-        'Bus'       => 'Illuminate\Support\Facades\Bus',
         'Cache'     => 'Illuminate\Support\Facades\Cache',
         'Config'    => 'Illuminate\Support\Facades\Config',
         'Cookie'    => 'Illuminate\Support\Facades\Cookie',
@@ -186,7 +184,6 @@ return [
         'Event'     => 'Illuminate\Support\Facades\Event',
         'File'      => 'Illuminate\Support\Facades\File',
         'Hash'      => 'Illuminate\Support\Facades\Hash',
-        'Input'     => 'Illuminate\Support\Facades\Input',
         'Inspiring' => 'Illuminate\Foundation\Inspiring',
         'Lang'      => 'Illuminate\Support\Facades\Lang',
         'Log'       => 'Illuminate\Support\Facades\Log',
@@ -204,8 +201,8 @@ return [
         'URL'       => 'Illuminate\Support\Facades\URL',
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View'      => 'Illuminate\Support\Facades\View',
-        'Form'      => 'Illuminate\Html\FormFacade',
-        'Html'      => 'Illuminate\Html\HtmlFacade',
+        'Form'      => Collective\Html\FormFacade::class,
+        'Html'      => Collective\Html\HtmlFacade::class,
         'Flash'     => 'Laracasts\Flash\Flash',
         'DNS'       => 'App\DNS\DNS',
     ],

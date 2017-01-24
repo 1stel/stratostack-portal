@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class SecurityGroupController extends Controller {
+class SecurityGroupController extends Controller
+{
 
     public function __construct()
     {

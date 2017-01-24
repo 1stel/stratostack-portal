@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DNS;
 
-class DNSController extends Controller {
+class DNSController extends Controller
+{
 
     public function __construct()
     {
@@ -116,21 +117,21 @@ class DNSController extends Controller {
                  'type'     => $request->type,
                  'target'   => $request->target];
 
-        if (isset($request->priority))
+        if (isset($request->priority)) {
             $data['priority'] = $request->priority;
-
-        if (isset($request->port))
-            $data['port'] = $request->port;
-
-        if (isset($request->weight))
-            $data['weight'] = $request->weight;
-
-        try
-        {
-            DNS::createRecord($data);
         }
-        catch (\Exception $e)
-        {
+
+        if (isset($request->port)) {
+            $data['port'] = $request->port;
+        }
+
+        if (isset($request->weight)) {
+            $data['weight'] = $request->weight;
+        }
+
+        try {
+            DNS::createRecord($data);
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage())->withInput();
         }
 
@@ -152,14 +153,17 @@ class DNSController extends Controller {
                  'type'     => $request->type,
                  'target'   => $request->target];
 
-        if (isset($request->priority))
+        if (isset($request->priority)) {
             $data['priority'] = $request->priority;
+        }
 
-        if (isset($request->port))
+        if (isset($request->port)) {
             $data['port'] = $request->port;
+        }
 
-        if (isset($request->weight))
+        if (isset($request->weight)) {
             $data['weight'] = $request->weight;
+        }
 
         $record = DNS::editRecord($id, $data);
 
@@ -174,5 +178,4 @@ class DNSController extends Controller {
 
         return 1;
     }
-
 }

@@ -2,7 +2,7 @@
 
 return [
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| Mail Driver
 	|--------------------------------------------------------------------------
@@ -15,9 +15,9 @@ return [
 	|
 	*/
 
-	'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => env('MAIL_DRIVER', 'smtp'),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| SMTP Host Address
 	|--------------------------------------------------------------------------
@@ -28,9 +28,9 @@ return [
 	|
 	*/
 
-	'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| SMTP Host Port
 	|--------------------------------------------------------------------------
@@ -41,9 +41,9 @@ return [
 	|
 	*/
 
-	'port' => env('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 587),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| Global "From" Address
 	|--------------------------------------------------------------------------
@@ -54,9 +54,9 @@ return [
 	|
 	*/
 
-	'from' => ['address' => 'support@stratostack.org', 'name' => 'Stratostack'],
+    'from' => ['address' => 'support@stratostack.org', 'name' => 'Stratostack'],
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| E-Mail Encryption Protocol
 	|--------------------------------------------------------------------------
@@ -67,9 +67,9 @@ return [
 	|
 	*/
 
-	'encryption' => '', // REVISE should be 'tls'
+    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| SMTP Server Username
 	|--------------------------------------------------------------------------
@@ -80,9 +80,9 @@ return [
 	|
 	*/
 
-	'username' => env('MAIL_USERNAME'),
+    'username' => env('MAIL_USERNAME'),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| SMTP Server Password
 	|--------------------------------------------------------------------------
@@ -93,9 +93,9 @@ return [
 	|
 	*/
 
-	'password' => env('MAIL_PASSWORD'),
+    'password' => env('MAIL_PASSWORD'),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| Sendmail System Path
 	|--------------------------------------------------------------------------
@@ -106,19 +106,6 @@ return [
 	|
 	*/
 
-	'sendmail' => '/usr/sbin/sendmail -bs',
-
-	/*
-	|--------------------------------------------------------------------------
-	| Mail "Pretend"
-	|--------------------------------------------------------------------------
-	|
-	| When this option is enabled, e-mail will not actually be sent over the
-	| web and will instead be written to your application's logs files so
-	| you may inspect the message. This is great for local development.
-	|
-	*/
-
-	'pretend' => false,
+    'sendmail' => '/usr/sbin/sendmail -bs',
 
 ];

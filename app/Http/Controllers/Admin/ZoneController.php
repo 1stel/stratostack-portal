@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Zone;
 
-class ZoneController extends Controller {
+class ZoneController extends Controller
+{
 
     public function __construct()
     {
@@ -19,15 +20,13 @@ class ZoneController extends Controller {
         // Grab all of our zones.  If there are none, import the list from our cloud provider.
         $zones = Zone::all();
 
-        if ($zones->count() == 0)
-        {
+        if ($zones->count() == 0) {
             unset($zones);
 
             // Store the zones in the database, defaulting them to disabled.
             $providerZones = app('Cloudstack\CloudStackClient')->listZones();
 
-            foreach ($providerZones as $providerZone)
-            {
+            foreach ($providerZones as $providerZone) {
                 Zone::create(['zone_id' => $providerZone->id,
                               'name'    => $providerZone->name,
                               'status'  => 'Disabled']);

@@ -7,7 +7,8 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\SiteConfig;
 
-class SettingsController extends Controller {
+class SettingsController extends Controller
+{
 
     public function __construct()
     {
@@ -39,12 +40,10 @@ class SettingsController extends Controller {
 
         $this->validate($request, $validationArr);
 
-        foreach ((array_keys($validationArr)) as $setting)
-        {
+        foreach ((array_keys($validationArr)) as $setting) {
             $cfgSetting = SiteConfig::whereParameter($setting)->firstOrFail();
 
-            if ($cfgSetting->data != $request->$setting)
-            {
+            if ($cfgSetting->data != $request->$setting) {
                 $cfgSetting->data = $request->$setting;
                 $cfgSetting->save();
             }
@@ -74,8 +73,7 @@ class SettingsController extends Controller {
         $data = $client->get("api/getResourceLimits");
         $resourceLimits = json_decode($data->getBody());
 
-        foreach ($resourceLimits as $resource => $limit)
-        {
+        foreach ($resourceLimits as $resource => $limit) {
             $dbEntry = SiteConfig::firstOrCreate(['parameter' => 'RL' . $resource]);
             $dbEntry->data = $limit;
             $dbEntry->save();

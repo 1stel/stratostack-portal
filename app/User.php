@@ -1,36 +1,26 @@
 <?php namespace App;
 
 use App\Traits\RecordsActivity;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
+class User extends Authenticatable
+{
 
-	use Authenticatable, CanResetPassword, RecordsActivity;
+    use RecordsActivity;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'email', 'password', 'access', 'paymentTypeOverride', 'agent_id', 'acs_id', 'authnet_cid', 'apiKey', 'verified', 'email_token'];
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['name', 'email', 'password', 'access', 'paymentTypeOverride', 'agent_id', 'acs_id', 'authnet_cid', 'apiKey', 'verified', 'email_token'];
-
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = ['password', 'remember_token'];
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['password', 'remember_token'];
 
     // Relationships
     public function instances()

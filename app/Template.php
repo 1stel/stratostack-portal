@@ -3,9 +3,10 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Template extends Model {
+class Template extends Model
+{
 
-	//
+    //
     use SoftDeletes;
 
     protected $fillable = ['name', 'template_group_id', 'template_id', 'type', 'size', 'price'];

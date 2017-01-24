@@ -42,9 +42,7 @@ class RecordActivity implements ShouldQueue
         try {
             $subject = $this->translateSubjectType($event->jobResult->jobinstancetype);
             $eventType = $this->translateEvent($event->jobResult->cmd);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return;
         }
 
@@ -57,7 +55,8 @@ class RecordActivity implements ShouldQueue
         ]);
     }
 
-    private function translateSubjectType($jobInstanceType) {
+    private function translateSubjectType($jobInstanceType)
+    {
         switch ($jobInstanceType) {
             case "VirtualMachine":
                 return 'Instance';
@@ -67,7 +66,8 @@ class RecordActivity implements ShouldQueue
         }
     }
 
-    private function translateEvent($cmd) {
+    private function translateEvent($cmd)
+    {
         switch (last(explode('.', $cmd))) {
             case "StartVMCmd":
                 return 'Started';
@@ -83,6 +83,5 @@ class RecordActivity implements ShouldQueue
                 Log::debug('Unhandled event translation request: ' . $cmd);
                 throw new \Exception('Unable to translate event.');
         }
-
     }
 }

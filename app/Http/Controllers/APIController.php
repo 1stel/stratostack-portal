@@ -13,7 +13,8 @@ use App\Package;
 use App\TemplateGroup;
 use Illuminate\Http\Request;
 
-class APIController extends Controller {
+class APIController extends Controller
+{
 
     public function postReceiveNotification(Request $request)
     {
@@ -24,11 +25,11 @@ class APIController extends Controller {
                                    'uuid'     => 'required',
                                    'ostypeid' => 'required']);
 
-        if ($request->apikey != Config::get('cloud.brgApiKey'))
+        if ($request->apikey != Config::get('cloud.brgApiKey')) {
             abort(401);
+        }
 
-        switch ($request->event)
-        {
+        switch ($request->event) {
             case 'SNAPSHOT.CREATE':
                 SnapshotMetadata::create(['id' => $request->uuid, 'ostypeid' => $request->ostypeid]);
                 break;
