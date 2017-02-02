@@ -12,30 +12,32 @@ use Illuminate\Support\Facades\Log;
 
 class CheckJobStatus implements ShouldQueue
 {
+    private $acs;
+
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(CloudStackClient $acs)
     {
-        //
+        $this->acs = $acs;
     }
 
     /**
      * Handle the event.
      *
-     * @param  NewAsyncJob  $event
+     * @param  NewAsyncJob $event
      * @return void
      */
-    public function handle(NewAsyncJob $event, CloudStackClient $acs)
+    public function handle(NewAsyncJob $event)
     {
         Log::debug('Checking job status!');
         //
         $loopComplete = 0;
 
         while ($loopComplete == 0) {
-            $result = $acs->queryAsyncJobResult(['jobid' => $event->jobId]);
+            $result = $this->acs->queryAsyncJobResult(['jobid' => $event->jobId]);
 
             if ($result->jobstatus == 1) {
                 Log::debug('Job finished! We are inside CheckJobStatus.');
