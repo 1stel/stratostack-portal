@@ -29,7 +29,7 @@ class InstanceRepo
             foreach ($this->serviceOfferings as $offering => $key) {
                 if (true === $key->iscustomized && false !== strpos($key->tags, $resources['diskType'])) {
                     // Found our offering
-                    return $offering->id;
+                    return $key->id;
                 }
             }
         } else {
