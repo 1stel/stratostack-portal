@@ -1,8 +1,9 @@
 <?php namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Request;
 
-class AddSSHKeyRequest extends Request
+class AddSSHKeyRequest extends FormRequest
 {
 
     /**

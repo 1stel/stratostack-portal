@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\DNS;
 
+use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Request;
 
-class StoreRecordRequest extends Request
+class StoreRecordRequest extends FormRequest
 {
 
     /**
