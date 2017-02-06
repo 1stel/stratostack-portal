@@ -2,7 +2,13 @@
 
 @section('content')
     <div>
-        @if(count($vms) > 0)
+        @if(is_object($vms) !== true || property_exists($vms, "cserrorcode"))
+            @if(property_exists($vms, "errortext"))
+                Internal Error: {{ $vms->errortext }}
+            @else
+                Internal Error: Can't retrieve instances
+            @endif
+        @elseif(count($vms) > 0)
             <table class="table">
                 <thead>
                 <tr>
