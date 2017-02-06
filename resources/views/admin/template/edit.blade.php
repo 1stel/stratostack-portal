@@ -37,7 +37,10 @@
                         @if(property_exists($template, "size"))
                             {!! Form::hidden('templateSize[' . $template->id . ']', ($template->size / 1024 / 1024 / 1024)) !!}
                         @endif
-                        {!! Form::checkbox('templates[' . $template->id . ']', 1, (in_array($template->id, $checkedIDs)) ? true : false) !!} {{ $template->displaytext }}
+                        @if($template->templatetype !== "BUILTIN")
+                            {!! Form::checkbox('templates[' . $template->id . ']', 1, (in_array($template->id, $checkedIDs)) ? true : false) !!} 
+                        @endif
+                        {{ $template->displaytext }}
                         @if(property_exists($template, "size"))
                             ({{ ($template->size / 1024 / 1024 / 1024) }} Gb)
                         @endif<br/>

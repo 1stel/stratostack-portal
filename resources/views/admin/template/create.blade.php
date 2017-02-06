@@ -34,11 +34,16 @@
                 {!! Form::label('templates', 'Templates', ['class' => 'col-sm-3 control-label']) !!} <br/>
                 <div class="col-sm-6">
                     @foreach ($templates as $template)
-                        {!! Form::hidden('templates[' . $template->id . ']', '0') !!}
+                        @if($template->templatetype !== "BUILTIN")
+                            {!! Form::hidden('templates[' . $template->id . ']', '0') !!}
+                        @endif
                         @if(property_exists($template, "size"))
                             {!! Form::hidden('templateSize[' . $template->id . ']', ($template->size / 1024 / 1024 / 1024)) !!}
                         @endif
-                        {!! Form::checkbox('templates[' . $template->id . ']') !!} {{ $template->displaytext }} 
+                        @if($template->templatetype !== "BUILTIN")
+                            {!! Form::checkbox('templates[' . $template->id . ']') !!}
+                        @endif
+                        {{ $template->displaytext }} 
                         @if(property_exists($template, "size"))
                             ({{ ($template->size / 1024 / 1024 / 1024) }} Gb)
                         @endif<br/>
