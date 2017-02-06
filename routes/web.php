@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'Auth\AuthController@getLogin');
+Route::get('/', 'Auth\LoginController@getLogin');
 
 Route::get('home', 'InstanceController@index');
 
@@ -42,11 +42,7 @@ Route::get('/progress/{jobId}', ['as' => 'progress', 'middleware' => 'auth', fun
     return view('progress', ['jobId' => $jobId]);
 }]);
 
-Route::controllers([
-    'auth' => 'Auth\AuthController',
-    'password' => 'Auth\PasswordController',
-    'api' => 'APIController',
-]);
+Auth::routes();
 
 Route::resource('instance', 'InstanceController');
 Route::resource('dns', 'DNSController', ['except' => ['show', 'update']]);

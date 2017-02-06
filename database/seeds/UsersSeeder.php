@@ -13,7 +13,7 @@ class UsersSeeder extends Seeder
 
         User::create([
             'name' => 'Admin User',
-            'email' => 'admin',
+            'email' => 'admin@example.com',
             'password' => bcrypt('admin'),
             'access' => 'Admin',
             'paymentTypeOverride' => 'PostPay',

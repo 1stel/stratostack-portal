@@ -34,6 +34,11 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware('guest', ['except' => 'logout', 'getValidationNeeded']);
+    }
+
+    public function getValidationNeeded()
+    {
+        return view('please-validate');
     }
 }
