@@ -59,7 +59,38 @@
             </ul>
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h4 class="panel-title">Usage Metrics</h4></div>
+            </div>
+            <table class="table">
+                <tr>
+                    <th>CPU</th>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ round(substr($vm->cpuused, 0, -1)); }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ round(substr($vm->cpuused, 0, -1)); }}%;">
+                                {{ $vm->cpuused }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>RAM</th>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $vm->memorykbs / 1024 / 1024 }}" aria-valuemin="0" aria-valuemax="{{ $vm->memory }}" style="width: {{ $vm->memorykbs / 1024 / 1024 }}%;">
+                                {{ $vm->memorykbs / 1024 / 1024 }} MB
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="panel-body">
+                RAM: {{ $vm->memorykbs }}
+            </div>
+        </div>
+
+        <div class="col-md-3">
             <div class="panel panel-info">
                 <div class="panel-heading"><h4 class="panel-title">Snapshots</h4></div>
                 <table class="table">
@@ -76,7 +107,9 @@
                     @endforeach
                 </table>
             </div>
+        </div>
 
+        <div class="col-md-3">
             <div class="panel panel-info">
                 <div class="panel-heading"><h4 class="panel-title">Security Groups</h4></div>
                 <div class="panel-body">
