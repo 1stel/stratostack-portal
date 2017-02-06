@@ -21,7 +21,12 @@
             <strong>
                 {{ $vm->cpunumber }} {{ ngettext('Core', 'Cores', $vm->cpunumber) }} /
                 {{ $vm->memory / 1024 }} Gb RAM /
-                {{ $disk->size / 1024 / 1024 / 1024 }} Gb {{ $diskType->display_text }}
+                {{ $disk->size / 1024 / 1024 / 1024 }} Gb
+                @if(defined("diskType"))
+                    {{ $diskType->display_text }}
+                @else
+                    Unknown Disk Type
+                @endif
             </strong>
         </div>
         <div class="col-md-4"><strong>{{ $vm->templatedisplaytext }}</strong></div>

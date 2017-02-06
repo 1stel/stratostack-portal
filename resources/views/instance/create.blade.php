@@ -49,7 +49,10 @@
                         <ul>
                             <li>{{ $package->cpu_number }} Core</li>
                             <li>{{ $package->ram / 1024 }} GB RAM</li>
-                            <li>{{ $package->disk_size }} {{ ($package->disk_size >= 1000) ? 'TB' : 'GB' }} {{ $package->diskType->display_text }}</li>
+                            <li>{{ $package->disk_size }} {{ ($package->disk_size >= 1000) ? 'TB' : 'GB' }}
+                            @if(property_exists($package, "diskType"))
+                                {{ $package->diskType->display_text }}
+                            @endif</li>
                         </ul>
                     </label>
                 @endforeach
