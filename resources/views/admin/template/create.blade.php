@@ -35,8 +35,13 @@
                 <div class="col-sm-6">
                     @foreach ($templates as $template)
                         {!! Form::hidden('templates[' . $template->id . ']', '0') !!}
-                        {!! Form::hidden('templateSize[' . $template->id . ']', ($template->size / 1024 / 1024 / 1024)) !!}
-                        {!! Form::checkbox('templates[' . $template->id . ']') !!} {{ $template->displaytext }} ({{ ($template->size / 1024 / 1024 / 1024) }} Gb)<br/>
+                        @if(property_exists($template, "size"))
+                            {!! Form::hidden('templateSize[' . $template->id . ']', ($template->size / 1024 / 1024 / 1024)) !!}
+                        @endif
+                        {!! Form::checkbox('templates[' . $template->id . ']') !!} {{ $template->displaytext }} 
+                        @if(property_exists($template, "size"))
+                            ({{ ($template->size / 1024 / 1024 / 1024) }} Gb)
+                        @endif<br/>
                     @endforeach
                 </div>
             </div>
