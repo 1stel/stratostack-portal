@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'Auth\LoginController@getLogin');
+Route::get('/', 'Auth\LoginController@showLoginForm');
 
 Route::get('home', 'InstanceController@index');
 
