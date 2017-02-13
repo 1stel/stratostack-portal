@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\DNS;
 
+use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Request;
 
-class StoreDomainRequest extends Request
+class StoreDomainRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

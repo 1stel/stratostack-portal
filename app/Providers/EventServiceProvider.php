@@ -1,7 +1,7 @@
 <?php namespace App\Providers;
 
 use App\Activity;
-use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Request;
 
@@ -36,14 +36,13 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Register any other events for your application.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher $events
      * @return void
      */
-    public function boot(DispatcherContract $events)
+    public function boot()
     {
-        parent::boot($events);
+        parent::boot();
 
-        $events->listen('auth.login', function ($user, $remember) {
+        Event::listen('auth.login', function ($user, $remember) {
             // Record user login
             Activity::create(['subject_type' => 'User',
                               'subject_id'   => '',

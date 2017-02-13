@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'Auth\AuthController@getLogin');
+Route::get('/', 'Auth\LoginController@showLoginForm');
 
 Route::get('home', 'InstanceController@index');
 
@@ -42,11 +42,7 @@ Route::get('/progress/{jobId}', ['as' => 'progress', 'middleware' => 'auth', fun
     return view('progress', ['jobId' => $jobId]);
 }]);
 
-Route::controllers([
-    'auth' => 'Auth\AuthController',
-    'password' => 'Auth\PasswordController',
-    'api' => 'APIController',
-]);
+Auth::routes();
 
 Route::resource('instance', 'InstanceController');
 Route::resource('dns', 'DNSController', ['except' => ['show', 'update']]);
@@ -70,22 +66,32 @@ Route::delete('snapshot/{snapshot}', ['as' => 'snapshot.destroy', 'uses' => 'Ins
 // Settings Section
 Route::get('settings', ['as' => 'settings.profile', 'uses' => 'Settings\ProfileController@profile']);
 Route::put('settings/profile', ['as' => 'settings.profile.update', 'uses' => 'Settings\ProfileController@update']);
-Route::resource('settings/vouchers', 'Settings\VouchersController', ['only' => ['index', 'update']]);
+
+
 Route::post('settings/vouchers/redeem', ['as' => 'settings.vouchers.redeem', 'uses' => 'Settings\VouchersController@redeem']);
 Route::get('settings/security', ['as' => 'settings.security', 'uses' => 'Settings\SecurityController@index']);
 Route::get('settings/billing', ['as' => 'settings.billing', 'uses' => 'Settings\BillingController@billing']);
 Route::get('settings/billing/invoice/{id}', ['as' => 'invoice.show', 'uses' => 'Settings\BillingController@getInvoice']);
-Route::resource('settings/sshkeys', 'Settings\SSHKeyController', ['only' => ['store', 'destroy']]);
-Route::resource('settings/creditcard', 'Settings\CreditCardController', ['except' => ['index', 'show']]);
 Route::get('settings/activity', ['as' => 'settings.activity', 'uses' => 'Settings\ActivityController@activity']);
+
+Route::group(['as' => 'settings.'], function () {
+    Route::resource('settings/vouchers', 'Settings\VouchersController', ['only' => ['index', 'update']]);
+    Route::resource('settings/sshkeys', 'Settings\SSHKeyController', ['only' => ['store', 'destroy']]);
+    Route::resource('settings/creditcard', 'Settings\CreditCardController', ['except' => ['index', 'show']]);
+});
+
 
 // Admin routes
 Route::get('admin/', ['as' => 'admin.home', 'uses' => 'Admin\HomeController@index']);
-Route::resource('admin/template', 'Admin\TemplateController', ['except' => ['show']]);
-Route::resource('admin/package', 'Admin\PackageController', ['except' => ['show', 'edit', 'update']]);
-Route::resource('admin/network', 'Admin\NetworkController');
-Route::resource('admin/user', 'Admin\UserController', ['except' => 'show']);
-Route::resource('admin/sg', 'Admin\SecurityGroupController', ['except' => ['edit', 'update']]);
+
+Route::group(['as' => 'admin.'], function () {
+    Route::resource('admin/template', 'Admin\TemplateController', ['except' => ['show']]);
+    Route::resource('admin/package', 'Admin\PackageController', ['except' => ['show', 'edit', 'update']]);
+    Route::resource('admin/network', 'Admin\NetworkController');
+    Route::resource('admin/user', 'Admin\UserController', ['except' => 'show']);
+    Route::resource('admin/sg', 'Admin\SecurityGroupController', ['except' => ['edit', 'update']]);
+});
+
 Route::post('admin/sg/{id}/ingressrule', ['as' => 'admin.sg.ingressrule.add', 'uses' => 'Admin\SecurityGroupController@addIngressRule']);
 Route::delete('admin/sg/ingressrule/{id}', ['as' => 'admin.sg.ingressrule.destroy', 'uses' => 'Admin\SecurityGroupController@deleteIngressRule']);
 

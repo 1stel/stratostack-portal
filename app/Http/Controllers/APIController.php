@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 class APIController extends Controller
 {
 
-    public function postReceiveNotification(Request $request)
+    public function receiveNotification(Request $request)
     {
         //
         $this->validate($request, ['apikey'   => 'required',

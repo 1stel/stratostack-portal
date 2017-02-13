@@ -1,10 +1,12 @@
 <?php namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use App\Traits\RecordsActivity;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use Notifiable;
 
     use RecordsActivity;
 
