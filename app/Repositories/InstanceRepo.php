@@ -140,7 +140,7 @@ class InstanceRepo
         // Add a network interface to the system
         $networks = $this->acs->listNetworks(['canusefordeploy' => 'true', 'account' => $user->email, 'domainid' => $cfg['domainId']]);
 
-        // !!REVISE!!
+        // !!REVISE!! Adv needs better selection, basic needs this gone.
         $instanceData['networkids'] = $networks[0]->id;
 
         // Select a security group for the instance
