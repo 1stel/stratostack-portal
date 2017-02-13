@@ -59,36 +59,37 @@
             </ul>
         </div>
 
+        @if ($vm->state == "Running")
         <div class="col-md-4">
             <div class="panel panel-info">
                 <div class="panel-heading"><h4 class="panel-title">Usage Metrics</h4></div>
-            </div>
-            <table class="table">
-                <tr>
-                    <th>CPU</th>
-                    <td>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ round(substr($vm->cpuused, 0, -1)); }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ round(substr($vm->cpuused, 0, -1)); }}%;">
-                                {{ $vm->cpuused }}
+                <table class="table">
+                    <tr>
+                        <th style="width: 5em">CPU</th>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ round(substr($vm->cpuused, 0, -1)) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ round(substr($vm->cpuused, 0, -1)) }}%; min-width: 2em;">
+                                    {{ round(substr($vm->cpuused, 0, -1)) }}%
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>RAM</th>
-                    <td>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $vm->memorykbs / 1024 / 1024 }}" aria-valuemin="0" aria-valuemax="{{ $vm->memory }}" style="width: {{ $vm->memorykbs / 1024 / 1024 }}%;">
-                                {{ $vm->memorykbs / 1024 / 1024 }} MB
+                            Free: {{ $vm->memoryintfreekbs }}<br>
+                            Mem: {{ $vm->memory }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="width: 5em">RAM</th>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ ($vm->memorykbs - $vm->memoryintfreekbs) / 1024 }}" aria-valuemin="0" aria-valuemax="{{ $vm->memory }}" style="width: {{ 100 - round($vm->memoryintfreekbs / $vm->memorykbs * 100) }}%; min-width: 5em;">
+                                    {{ round(($vm->memorykbs - $vm->memoryintfreekbs) / 1024) }} MB
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-            <div class="panel-body">
-                RAM: {{ $vm->memorykbs }}
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
+        @endif
 
         <div class="col-md-3">
             <div class="panel panel-info">
