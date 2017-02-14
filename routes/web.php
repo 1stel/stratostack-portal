@@ -57,6 +57,7 @@ Route::get('instance/{instance}/reboot', ['as' => 'instance.reboot', 'uses' => '
 Route::get('instance/{instance}/stop', ['as' => 'instance.stop', 'uses' => 'InstanceController@stop']);
 Route::get('instance/{instance}/restore', ['as' => 'instance.recover', 'uses' => 'InstanceController@recover']);
 Route::get('instance/{instance}/snapshot', ['as' => 'instance.snapshot', 'uses' => 'InstanceController@snapshot']);
+Route::get('instance/{instance}/resetpw', ['as' => 'instance.resetpw', 'uses' => 'InstanceController@resetPassword']);
 
 Route::get('snapshot/{snapshot}/createTemplate', ['as' => 'snapshot.newTemplate', 'uses' => 'InstanceController@newTemplateFromSnapshot']);
 Route::post('snapshot/{snapshot}/createTemplate', ['as' => 'snapshot.createTemplate', 'uses' => 'InstanceController@createTemplateFromSnapshot']);

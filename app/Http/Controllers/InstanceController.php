@@ -287,4 +287,15 @@ class InstanceController extends Controller
 
         return redirect()->route('progress', [$resp->jobid]);
     }
+
+    public function resetPassword($id)
+    {
+        // Reset Password
+        $response = $this->acs->resetPasswordForVirtualMachine(['id' => $id]);
+
+        // Command is async
+        event(new NewAsyncJob($response->jobid, Auth::User()->id, HttpRequest::server('REMOTE_ADDR')));
+
+        return redirect()->route('progress', [$response->jobid]);
+    }
 }
