@@ -48,6 +48,15 @@
                         Snapshot
                     </a>
                 </li>
+
+                @if ($vm->state == 'Stopped')
+                <li><a href="{{ route('instance.resetpw', $vm->id) }}">
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                         Reset Password
+                    </a>
+                </li>
+                @endif
+
                 <li><a href="javascript:deleteType('instance', '{{ $vm->id }}');">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         Destroy
