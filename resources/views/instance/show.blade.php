@@ -76,23 +76,31 @@
                     <tr>
                         <th style="width: 5em">CPU</th>
                         <td>
+                            @if (property_exists($vm, "cpuused"))
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" aria-valuenow="{{ round(substr($vm->cpuused, 0, -1)) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ round(substr($vm->cpuused, 0, -1)) }}%; min-width: 2em;">
                                     {{ round(substr($vm->cpuused, 0, -1)) }}%
                                 </div>
                             </div>
+                            @endif
+                            @if (property_exists($vm, "memoryintfreekbs"))
                             Free: {{ $vm->memoryintfreekbs }}<br>
+                            @endif
+                            @if (property_exists($vm, "memory"))
                             Mem: {{ $vm->memory }}
+                            @endif
                         </td>
                     </tr>
                     <tr>
                         <th style="width: 5em">RAM</th>
                         <td>
+                            @if (property_exists($vm, "memorykbs") && property_exists($vm, "memoryintfreekbs"))
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" aria-valuenow="{{ ($vm->memorykbs - $vm->memoryintfreekbs) / 1024 }}" aria-valuemin="0" aria-valuemax="{{ $vm->memory }}" style="width: {{ 100 - round($vm->memoryintfreekbs / $vm->memorykbs * 100) }}%; min-width: 5em;">
                                     {{ round(($vm->memorykbs - $vm->memoryintfreekbs) / 1024) }} MB
                                 </div>
                             </div>
+                            @endif
                         </td>
                     </tr>
                 </table>
