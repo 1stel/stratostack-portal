@@ -17,7 +17,9 @@
 
     {!! Form::open(['method' => 'POST', 'route' => 'instance.store']) !!}
 
-    @if ($zones->count() > 1)
+    @if (sizeof($zones) === 0)
+        No Zones Available
+    @elseif ($zones->count() > 1)
         {!! Form::label('zone', 'Zone', ['class' => 'instance-label']) !!}<br/>
         @foreach ($zones as $zone)
             {!! Form::radio('zone', $zone->zone_id) !!} {{ $zone->display_name }}<br/>
