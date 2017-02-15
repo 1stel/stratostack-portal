@@ -38,7 +38,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 @if (Auth::guest())
-                    <li><a href="{{ url('/auth/login') }}">Login</a></li>
+                    <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/auth/register') }}">Sign Up!</a></li>
                 @else
                     <li><p class="navbar-btn"><a href="{{ route('instance.create') }}" class="btn btn-primary">New Instance</a></p></li>
