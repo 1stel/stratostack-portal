@@ -83,12 +83,6 @@
                                 </div>
                             </div>
                             @endif
-                            @if (property_exists($vm, "memoryintfreekbs"))
-                            Free: {{ $vm->memoryintfreekbs }}<br>
-                            @endif
-                            @if (property_exists($vm, "memory"))
-                            Mem: {{ $vm->memory }}
-                            @endif
                         </td>
                     </tr>
                     <tr>
