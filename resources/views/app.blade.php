@@ -42,7 +42,7 @@
             <ul class="nav navbar-nav navbar-right">
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
-                    <li><a href="{{ url('/auth/register') }}">Sign Up!</a></li>
+                    <li><a href="{{ url('/register') }}">Sign Up!</a></li>
                 @else
                     @if (!Request::is('instance/create')) <li><p class="navbar-btn"><a href="{{ route('instance.create') }}" class="btn btn-primary">New Instance</a></p></li> @endif
                     <li class="dropdown">
