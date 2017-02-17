@@ -3,6 +3,7 @@
 use Illuminate\Auth\AuthenticationException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 
 class Handler extends ExceptionHandler
 {
@@ -41,6 +42,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($e instanceof TokenMismatchException){
+            if ($request->is('login')) {
+                return redirect()->route('login')->withErrors(['message' => 'The login form has expired, please try again.']);
+            } else {
+                return redirect()->back();
+            }
+        }
         return parent::render($request, $e);
     }
     /**
