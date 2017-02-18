@@ -33,7 +33,11 @@ class RecordActivity implements ShouldQueue
         // Job result is in $event->jobResult
         Log::debug('RecordActivity listener fired');
 
-        Log::debug("Job Instance type is {$event->jobResult->jobinstancetype}");
+        if (isset($event->jobResult->jobinstancetype)) {
+            Log::debug("Job Instance type is {$event->jobResult->jobinstancetype}");
+        } else {
+            Log::debug("Job Instance type is not set");
+        }
         Log::debug("Command is {$event->jobResult->cmd}");
         Log::debug("VM Name is {$event->jobResult->jobresult->virtualmachine->name}");
         Log::debug("Auth is " . $event->userId);

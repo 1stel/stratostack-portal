@@ -298,4 +298,15 @@ class InstanceController extends Controller
 
         return redirect()->route('progress', [$response->jobid]);
     }
+
+    public function reinstallVirtualMachine($id)
+    {
+        // Reinstall Virtual Machine
+        $response = $this->acs->restoreVirtualMachine(['virtualmachineid' => $id]);
+
+        // Command is async
+        event(new NewAsyncJob($response->jobid, Auth::User()->id, HttpRequest::server('REMOTE_ADDR')));
+
+        return redirect()->route('progress', [$response->jobid]);
+    }
 }

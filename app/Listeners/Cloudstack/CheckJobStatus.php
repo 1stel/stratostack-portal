@@ -6,6 +6,7 @@ use App\Events\Cloudstack\InstanceWasCreated;
 use App\Events\Cloudstack\JobFinished;
 use App\Events\Cloudstack\NewAsyncJob;
 use App\Mail\VMPasswordChanged;
+use App\Mail\VMRestored;
 use App\User;
 use Cloudstack\CloudStackClient;
 use Illuminate\Queue\InteractsWithQueue;
@@ -43,16 +44,23 @@ class CheckJobStatus implements ShouldQueue
                 $loopComplete = 1;
                 event(new JobFinished($result, $event->userId, $event->userIpAddress));
 
-                switch ($result->jobinstancetype) {
-                    case 'VirtualMachine':
-                        if ($result->cmd == 'org.apache.cloudstack.api.command.user.vm.DeployVMCmd') {
-                            event(new InstanceWasCreated($result->jobresult->virtualmachine));
-                        }
-                        if ($result->cmd == 'org.apache.cloudstack.api.command.user.vm.ResetVMPasswordCmd') {
-                            Mail::to(User::find($event->userId)->email)
-                                ->queue(new VMPasswordChanged($result->jobresult->virtualmachine));
-                        }
-                        break;
+                if (isset($result->jobinstancetype)) {
+                    switch ($result->jobinstancetype) {
+                        case 'VirtualMachine':
+                            if ($result->cmd == 'org.apache.cloudstack.api.command.user.vm.DeployVMCmd') {
+                                event(new InstanceWasCreated($result->jobresult->virtualmachine));
+                            }
+                            if ($result->cmd == 'org.apache.cloudstack.api.command.user.vm.ResetVMPasswordCmd') {
+                                Mail::to(User::find($event->userId)->email)
+                                    ->queue(new VMPasswordChanged($result->jobresult->virtualmachine));
+                            }
+                            break;
+                    } 
+                } else {
+                    if ($result->cmd == 'org.apache.cloudstack.api.command.user.vm.RestoreVMCmd') {
+                        Mail::to(User::find($event->userId)->email)
+                            ->queue(new VMRestored($result->jobresult->virtualmachine));
+                    }
                 }
             }
 

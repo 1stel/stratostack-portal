@@ -57,6 +57,12 @@
                 </li>
                 @endif
 
+                <li><a href="{{ route('instance.reinstallvm', $vm->id) }}">
+                        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                         Reinstall
+                    </a>
+                </li>
+
                 <li><a href="javascript:deleteType('instance', '{{ $vm->id }}');">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         Destroy
