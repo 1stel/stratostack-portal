@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('contentNOINCLUDE')
 <div class="container">

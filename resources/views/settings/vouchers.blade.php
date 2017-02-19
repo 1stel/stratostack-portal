@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('modals')
     <div class="modal fade" id="issueVoucherModal" tabindex="-1" role="dialog" aria-labelledby="issueVoucherLabel" aria-hidden="true">
