@@ -8,6 +8,7 @@ use Cloudstack\CloudStackClient;
 use Illuminate\Http\Request;
 use Auth;
 use Mail;
+use Config;
 
 class ProfileController extends Controller
 {
@@ -69,7 +70,7 @@ class ProfileController extends Controller
             $userData['password'] = $request['new_password'];
 
             Mail::send('emails.password_changed', [], function ($m) use ($user) {
-                $m->from('support@stratostack.com', 'StratoSTACK');
+                $m->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
                 $m->to($user->email, $user->name)->subject('Password changed');
             });
         }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Mail;
 use Auth;
+use Config;
 use App\Voucher;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -84,7 +85,7 @@ class VouchersController extends Controller
         $this->validate($request, ['email' => 'required|email']);
 
         Mail::send('emails.voucher', ['number' => $id], function ($mail) use ($request) {
-            $mail->from('support@stratostack.com', 'StratoSTACK');
+            $mail->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
             $mail->to($request->email)->subject('Voucher');
         });
 

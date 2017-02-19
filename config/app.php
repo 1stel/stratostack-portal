@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'StratoSTACK',
+    'name' => env('APP_NAME', 'StratoSTACK'),
 
     'env' => env('APP_ENV', 'production'),
 
