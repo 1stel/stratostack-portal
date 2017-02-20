@@ -27,9 +27,11 @@ class InstanceRepo
         if ($offering_id == false) {
         // No offering found.  Look for a customized offering with our disk requirements.
             foreach ($this->serviceOfferings as $offering => $key) {
-                if (true === $key->iscustomized && false !== strpos($key->tags, $resources['diskType'])) {
-                    // Found our offering
-                    return $key->id;
+                if (true === $key->iscustomized) {
+                    if (!isset($resources['diskType']) || false !== strpos($key->tags, $resources['diskType'])) {
+                        // Found our offering
+                        return $key->id;
+                    }
                 }
             }
         } else {
@@ -49,9 +51,14 @@ class InstanceRepo
 
         foreach ($this->serviceOfferings as $offering) {
             if (false == $offering->iscustomized) {
-                $serviceOfferings[$offering->id] = ['cpu'      => $offering->cpunumber,
-                                                    'memory'   => $offering->memory,
-                                                    'diskType' => $offering->tags];
+                if (isset($offering->tags)) {
+                    $serviceOfferings[$offering->id] = ['cpu'      => $offering->cpunumber,
+                                                        'memory'   => $offering->memory,
+                                                        'diskType' => $offering->tags];
+                } else {
+                    $serviceOfferings[$offering->id] = ['cpu'      => $offering->cpunumber,
+                                                        'memory'   => $offering->memory];
+                }
             }
         }
 
@@ -89,9 +96,14 @@ class InstanceRepo
                                                                              'memory'   => $pkg->ram,
                                                                              'diskType' => $pkg->diskType->tags]);
         } else {
-            $instanceData['serviceofferingid'] = $this->findServiceOffering(['cpu'      => $request->coreSlider,
-                                                                             'memory'   => ($request->ramSlider * 1024),
-                                                                             'diskType' => $request->diskType]);
+            if (isset($request['diskType'])) {
+                $instanceData['serviceofferingid'] = $this->findServiceOffering(['cpu'      => $request->coreSlider,
+                                                                                 'memory'   => ($request->ramSlider * 1024),
+                                                                                 'diskType' => $request->diskType]);
+            } else {
+                $instanceData['serviceofferingid'] = $this->findServiceOffering(['cpu'      => $request->coreSlider,
+                                                                                 'memory'   => ($request->ramSlider * 1024)]);
+            }
         }
 
         // If we can't find a service offering, error out.
@@ -122,7 +134,7 @@ class InstanceRepo
                 $instanceData['templateid'] = $templateGroup->templates->first()->template_id;
 
                 // If we have a package get the disk size from there.  If not we have a custom size.
-                $instanceData['rootdisksize'] = (isset($request['package'])) ? $pkg->disk_size : $request['disk_size'];
+                $instanceData['rootdisksize'] = (isset($request['package'])) ? $pkg->disk_size : stristr($request['hdSlider'], ' ', true);
 
                 // We also need to set the hypervisor type.
                 $instanceData['hypervisor'] = $cfg['hypervisor'];
