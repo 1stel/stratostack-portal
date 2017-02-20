@@ -4,6 +4,7 @@ namespace App\Listeners\Cloudstack;
 
 use App\User;
 use Mail;
+use Config;
 use App\Events\Cloudstack\InstanceWasCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,7 +38,7 @@ class NotifyUserAboutInstance implements ShouldQueue
         $user = User::where('email', $event->instance->account)->first();
 
         Mail::send('emails.newinstance', $emailParameters, function ($m) use ($user, $instanceName) {
-            $m->from('support@stratostack.com', 'StratoSTACK');
+            $m->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
             $m->to($user->email, $user->name)->subject('New Instance: ' . $instanceName);
         });
     }

@@ -5,7 +5,7 @@
     <div class="col-md-10 col-md-offset-1" style="margin-top: 30px">
         <div class="row">
             <div class="col-md-6" style="font-size: 18px">
-                <strong>Stratostack</strong><br>
+                <strong>{{ Config::get('app.name') }}</strong><br>
                 Address1<br>
                 City, State ZIP<br>
             </div>

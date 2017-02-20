@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use Mail;
+use Config;
 use App\Events\UserHasRegistered;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -29,7 +30,7 @@ class SendEmailConfirmation
     {
         //
         Mail::send('emails.emailConfirm', ['user' => $event->user], function ($m) use ($event) {
-            $m->from('support@stratostack.com', 'StratoSTACK');
+            $m->from(Config::get('mail.from.address'), Config::get('mail.from.name'));
             $m->to($event->user->email, $event->user->name)->subject('Please confirm your email address');
         });
     }

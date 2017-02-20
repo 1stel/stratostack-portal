@@ -1,1 +1,1 @@
-Welcome to StratoSTACK, {{ $name }}!  We hope you enjoy your stay.
+Welcome to {{ Config::get('app.name') }}, {{ $name }}!  We hope you enjoy your stay.

@@ -54,7 +54,10 @@ return [
 	|
 	*/
 
-    'from' => ['address' => 'support@stratostack.org', 'name' => 'Stratostack'],
+    'from' => [
+		'address' => env('MAIL_FROM_ADDRESS', 'support@stratostack.org'), 
+		'name' => env('MAIL_FROM_NAME', 'Stratostack')
+    ],
 
     /*
 	|--------------------------------------------------------------------------
