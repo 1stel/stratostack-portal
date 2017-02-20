@@ -16,6 +16,7 @@ use App\DiskType;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateInstanceRequest;
 use Auth;
+use Illuminate\Support\Facades\Log;
 
 class InstanceController extends Controller
 {
@@ -107,12 +108,24 @@ class InstanceController extends Controller
         $domainId = SiteConfig::whereParameter('domainId')->first()->data;
 
         // Find the one VM for $id.  listVMs returns an array of stdObjects representing virtualMachines.
+        Log::debug("Requesting listVirtualMachines with VM ID: ".$id);
         $vm = $this->acs->listVirtualMachines(['id' => $id])[0];
+        Log::debug("Received listVirtualMachines response from request with VM ID: ".$id."\n".print_r($vm,true));
+        Log::debug("Requesting listVolumes with VM ID: ".$id);
         $disk = $this->acs->listVolumes(['virtualmachineid' => $vm->id, 'listall' => 'true', 'type' => 'ROOT'])[0];
+        Log::debug("Received listVolumes response from request with VM ID: ".$id."\n".print_r($disk,true));
+        Log::debug("Requesting listServiceOfferings with VM serviceofferingid ID: ".$vm->serviceofferingid);
         $serviceOffering = $this->acs->listServiceOfferings(['id' => $vm->serviceofferingid])[0];
-        $diskType = DiskType::whereTags($serviceOffering->tags)->first();
+        Log::debug("Received listServiceOfferings response from request with VM serviceofferingid ID: ".$id."\n".print_r($serviceOffering,true));
+        if(property_exists($serviceOffering, "tags")) {
+            $diskType = DiskType::whereTags($serviceOffering->tags)->first();
+        } else {
+            Log::warning("serviceOffering with ID: ".$serviceOffering->id." and Name: ".$serviceOffering->name." is missing tags");
+        }
 
+        Log::debug("Requesting listSnapshots with volume ID: ".$vm->serviceofferingid." account ID: ".Auth::User()->email." domainid: ".$domainId);
         $snapshots = $this->acs->listSnapshots(['volmueid' => $disk->id, 'account' => Auth::User()->email, 'domainid' => $domainId]);
+        Log::debug("Received listSnapshots response from request with volume ID: ".$vm->serviceofferingid." account ID: ".Auth::User()->email." domainid: ".$domainId."\n".print_r($snapshots,true));
 
         return view('instance.show')->with(compact('vm', 'disk', 'diskType', 'snapshots'));
     }
