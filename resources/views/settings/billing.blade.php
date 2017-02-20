@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('modals')
 <div class="modal fade" id="creditCardModal" tabindex="-1" role="dialog" aria-labelledby="creditCardModalLabel" aria-hidden="true">
