@@ -2,7 +2,6 @@
 
 interface PaymentRepositoryInterface
 {
-
     public function newCard(array $cardInfo, $userId);
 
     public function updateCard($id, array $cardInfo);

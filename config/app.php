@@ -169,6 +169,7 @@ return [
         'App\Providers\TaxCloudServiceProvider',
         'App\Providers\InstanceRepoProvider',
         'App\Providers\SecurityGroupRepoProvider',
+        'App\Providers\StripeServiceProvider',
 
     ],
 
